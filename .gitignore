@@ -1,4 +1,4 @@
+.gitignore
 collect.py
 done.txt
 __pycache__/
-
