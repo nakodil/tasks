@@ -1,0 +1,22 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    <title>Все канбаны</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Список канбанов</h1>
+    <ol>
+    {% for kanban in object_list %}
+        <li>
+            <a href="{% url 'tasks:kanban_detail' kanban.id %}">{{ kanban.title }}</a>
+        </li>
+    {% empty %}
+        <li>
+            У вас пока нет канбанов, <a href="{% url 'tasks:kanban_add' %}">создайте</a> новый.
+        </li>
+    {% endfor %}
+    </ol>
+    <a href="{% url 'tasks:kanban_add' %}">создать канбан</a>
+
+{% endblock %}

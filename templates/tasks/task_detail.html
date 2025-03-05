@@ -1,0 +1,27 @@
+{% extends 'tasks/base.html' %}
+
+
+{% block title %}
+    <title>{{ task.title }}</title>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ task.title }}</h1>
+    <ul>
+        <li>статус: {{ task.status }}</li>
+        <li>создана: {{ task.datetime_created|date:'d.m.Y H:i' }} - {{ task.datetime_created|timesince }} назад</li>
+        <li>назначена: {{ task.datetime_assigned|date:'d.m.Y H:i' }} - {{ task.datetime_assigned|timesince }} назад</li>
+        <li>дедлайн: {{ task.datetime_deadline|date:'d.m.Y H:i' }} - через {{ task.datetime_deadline|timeuntil }}</li>
+        <li>исполнитель: {{ task.executor }}</li>
+    </ul>
+    <p>{{ task.description }}</p>
+    {% if task.image  %}
+        <img src="{{ task.image.url }}" alt="{{ task.title }}">
+    {% endif %}
+    <ul>
+        <li><a href="{% url 'tasks:task_assign' task.pk %}">назначить</a></li>  <!-- Не показывать на назначенной -->
+        <li><a href="{% url 'tasks:task_update' task.pk %}">редактировать</a></li>
+        <li><a href="{% url 'tasks:task_delete' task.pk %}">удалить</a></li>
+        <li><a href="{% url 'tasks:kanban_detail' task.kanban.pk %}">вернуться в канбан</a></li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    <title>Удалить канбан</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Удалить канбан</h1>
+    <form action="{% url 'tasks:kanban_delete' kanban.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="удалить">
+    </form>
+{% endblock %}

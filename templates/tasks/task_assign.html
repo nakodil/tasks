@@ -1,0 +1,17 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    <title>Назначить задачу</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Назначить задачу {{ task.title }}</h1>
+    <form action="{% url 'tasks:task_assign' task.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="назначить задачу">
+    </form>
+    <ul>
+        <li><a href="{% url 'tasks:kanban_detail' task.kanban.pk %}">вернуться в канбан</a></li>
+    </ul>
+{% endblock %}

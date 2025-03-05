@@ -1,0 +1,15 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    <title>Регистрация</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Регистрация</h1>
+    <form action="{% url 'tasks:signup' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="зарегистрироваться">
+    </form>
+    <a href="{% url 'tasks:list' %}">к списку задач</a>
+{% endblock %}

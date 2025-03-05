@@ -1,0 +1,14 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    <title>Вход</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Войти</h1>
+    <form action="{% url 'tasks:login' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="войти">
+    </form>
+{% endblock %}

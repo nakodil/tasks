@@ -1,0 +1,15 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    <title>Добавить канбан</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Добавить канбан</h1>
+    <form action="{% url 'tasks:kanban_add' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="добавить">
+    </form>
+{% endblock %}
+s
