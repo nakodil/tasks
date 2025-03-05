@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.shortcuts import render
-from django.core.exceptions import ValidationError
+from django.utils import timezone
 from .forms import TaskAddForm, KanbanAddForm, TaskAssignForm
 from .models import Task, Kanban
 
@@ -214,6 +214,36 @@ class TaskAssignView(UserPassesTestMixin, UpdateView):
                 {'message': 'Вам нельзя назначать эту задачу'}
             )
         )
+
+    def form_valid(self, form):
+        executor = form.cleaned_data['executor']
+        deadline = form.cleaned_data['datetime_deadline']
+        now = timezone.now()
+
+        if not executor:
+            form.add_error(
+                'executor',
+                'Назначьте исполнителя!'
+            )
+            return self.form_invalid(form)
+
+        if not deadline:
+            form.add_error(
+                'datetime_deadline',
+                'Задайте дедлайн!'
+            )
+            return self.form_invalid(form)
+
+        if deadline < now:
+            form.add_error(
+                'datetime_deadline',
+                'Дедлайн не может быть раньше даты назначения!'
+            )
+            return self.form_invalid(form)
+
+        form.instance.to_assigned()
+        return super().form_valid(form)
+
 
 class AppLoginView(LoginView):
     template_name = 'tasks/login.html'

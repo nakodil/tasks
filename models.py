@@ -123,4 +123,13 @@ class Task(models.Model):
         self.image.name = new_image_path
 
     def to_assigned(self):
-        pass
+        '''Назначение задачи исполнителю'''
+        if not self.executor:
+            raise ValueError('Нет исполнителя.')
+        if not self.datetime_deadline:
+            raise ValueError('Нет дедлайна.')
+        if self.datetime_deadline <= timezone.now():
+            raise ValueError('Дедлайн раньше, чем сейчас.')
+        self.status = 'assigned'
+        self.datetime_assigned = timezone.now()
+        self.save()
